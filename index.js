@@ -16,6 +16,9 @@ app.use("/api/auth", AuthRoutes);
 app.use("/api/profile", profileRoutes);
 
 //connecting to database
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to Mentor Backend" });
+});
 connectDb();
 
 app.listen(8000, () => {
