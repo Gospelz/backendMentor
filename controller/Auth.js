@@ -42,19 +42,26 @@ const register = async (req, res) => {
       sameSite: "strict",
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
     });
-    return res.status(201).json({message: "User registered successfully", user: {id: user._id, name, email, role}})
+    return res
+      .status(201)
+      .json({
+        message: "User registered successfully",
+        user: { id: user._id, name, email, role },
+      });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({message: "server error"})
+    return res.status(500).json({ message: "server error" });
   }
 };
 
 // user login controller
 const login = async (req, res) => {
   try {
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
     const user = await AuthModel.findOne({ email });
     if (!user) {
@@ -73,38 +80,48 @@ const login = async (req, res) => {
       sameSite: "strict",
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
     });
-    return res.status(200).json({message: "Login successful", user: {id: user._id, name: user.name, email: user.email, role: user.role}});
+    return res
+      .status(200)
+      .json({
+        message: "Login successful",
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({message: "server error"});
+    return res.status(500).json({ message: "server error" });
   }
 };
 //user logout controller
-  const Logout = async (req, res) => {
-    try {
-      res.clearCookie("token", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict",
-      });
-      return res.status(200).json({ message: "Logout successful" });
-    } catch (error) {
-      res.json({ message: "Server error" });
-      console.log(error);
-    }
-}
+const Logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+    });
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    res.json({ message: "Server error" });
+    console.log(error);
+  }
+};
 // user data
-const getUserData = async(req,res) => {
+const getUserData = async (req, res) => {
   try {
     const { id } = req.params;
     const userData = await AuthModel.findById(id).select("-password");
     if (!userData) {
       return res.status(404).json({ message: "User not found" });
     }
-    return res.status(200).json({userData });
+    return res.status(200).json({ userData });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error" });
   }
-}
+};
 export { register, login, Logout, getUserData };

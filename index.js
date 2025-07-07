@@ -8,10 +8,23 @@ import profileRoutes from "./routes/profileRoutes.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
+const port = process.env.PORT;
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+const allowOrigin = [
+  "https://frontend-mentor-pi-six.vercel.app",
+  "http://localhost:5173",
+];
+app.use(
+  cors({
+    origin: allowOrigin,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use("/api/auth", AuthRoutes);
 app.use("/api/profile", profileRoutes);
 
