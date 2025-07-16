@@ -5,18 +5,19 @@ const authSchema = new mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: {
+    availability: {
       type: String,
       required: true,
-      enum: ["admin", "mentor", "mentee"],
-      default: "mentee",
+      enum: ["NOT-AVAILABLE", "AVAILABLE", "PENDING"],
+      default: "AVAILABLE",
     },
     bio: { type: String, default: "" },
-    skills: { type: String },
+    topic: { type: String },
     goals: { type: String },
   },
   { timestamps: true },
   { minimize: false }
 );
-const AuthModel = mongoose.model.users || mongoose.model("users", authSchema);
-export default AuthModel;
+const mentorModel = mongoose.model.mentor || mongoose.model("mentor", authSchema);
+export default mentorModel;
+

@@ -6,6 +6,7 @@ import connectDb from "./config/Mongodb.js";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import cookieParser from "cookie-parser";
+import mentorRoutes from "./routes/mentorRoutes.js";
 dotenv.config();
 
 const port = process.env.PORT;
@@ -27,6 +28,7 @@ app.use(
 );
 app.use("/api/auth", AuthRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/", mentorRoutes);
 
 //connecting to database
 app.get("/", (req, res) => {
